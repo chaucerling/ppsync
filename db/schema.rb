@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122052936) do
+ActiveRecord::Schema.define(version: 20150125141532) do
+
+  create_table "catalogs", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pictures", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "origin_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "system_websites", force: :cascade do |t|
+    t.string   "name"
+    t.string   "type"
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_websites", id: false, force: :cascade do |t|
+    t.integer  "catalog_id"
+    t.integer  "user_id"
+    t.integer  "system_website_id"
+    t.integer  "picture_id"
+    t.string   "picture_url"
+    t.integer  "sync_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "user_websites", ["user_id", "system_website_id"], name: "index_user_websites_on_user_id_and_system_website_id", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -26,6 +62,7 @@ ActiveRecord::Schema.define(version: 20150122052936) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "avatar"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

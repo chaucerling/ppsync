@@ -44,3 +44,5 @@ end
 
 gem 'devise'
 gem 'carrierwave'
+gem 'mini_magick'
+gem 'composite_primary_keys' 
