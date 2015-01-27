@@ -8,4 +8,11 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, 
     :rememberable, :trackable, :validatable
+
+  after_create :create_default_catalog
+
+  protected
+  def create_default_catalog
+    self.catalogs.create(name: "default", user_id: self.id)
+  end
 end

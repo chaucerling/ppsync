@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   #     end
   #   end
   resources :pictures
+  resources :catalogs
 
 
   # Example resource route with sub-resources:
