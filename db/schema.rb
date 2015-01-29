@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127084614) do
+ActiveRecord::Schema.define(version: 20150128073924) do
 
   create_table "catalogs", force: :cascade do |t|
     t.integer  "user_id"
@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(version: 20150127084614) do
 
   create_table "system_websites", force: :cascade do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "picture_type"
     t.string   "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  create_table "user_websites", id: false, force: :cascade do |t|
+  create_table "user_websites", force: :cascade do |t|
     t.integer  "catalog_id"
     t.integer  "user_id"
     t.integer  "system_website_id"

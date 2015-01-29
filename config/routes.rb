@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   #     end
   #   end
   resources :pictures
-  resources :catalogs
+  resources :catalogs , shallow: true do
+    resources :websites , except: [:update , :edit]
+  end
 
 
   # Example resource route with sub-resources:
