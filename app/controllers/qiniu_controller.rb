@@ -2,6 +2,7 @@ require 'net/http'
 
 class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
+  protect_from_forgery with: :null_session    
 
   def callback
     @res = {:success => "true"}.to_json
