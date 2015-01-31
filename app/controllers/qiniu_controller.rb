@@ -4,9 +4,13 @@ class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
 
   def callback
-    p call_params
-    @res = {:success => "true", :name => "sunflowerb.jpg"}.to_json
-    render layout: false
+    @res = {:success => "true"}.to_json
+    render json: @res
+  end
+
+  def callback2
+    @res = {:success => "true"}
+    render json: @res
   end
 
   private
