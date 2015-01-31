@@ -8,9 +8,11 @@
  enctype="multipart/form-data">
 <!--   <input name="key" type="hidden" value="<resource_key>"> -->
 <!--   <input name="x:<custom_name>" type="hidden" value="<custom_value>"> -->
-  <input name="token" type="hidden" value="<%= @uptoken %>"/>
-  <input name="file" type="file" />
-  <input type="submit" name="commit" value="upload">
+    <input name="token" type="hidden" value="<%= @uptoken %>"/>
+    <input name="x:location" value="Shanghai">
+    <input name="x:price" value="1500.00">
+    <input name="file" type="file" />
+    <input type="submit" name="commit" value="upload">
 <!--   <input name="crc32" type="hidden" /> -->
 <!--   <input name="accept" type="hidden" /> -->
 </form>

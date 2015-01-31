@@ -1,0 +1,2 @@
+module QiniuHelper
+end
