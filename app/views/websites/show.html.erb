@@ -1,0 +1,5 @@
+<p>website id:<%= @website.id %></p>
+<p>catalog id:<%= @website.catalog_id %></p>
+<p>system website id:<%= @website.system_website_id %></p>
+
+<%= link_to 'list', catalog_websites_path(@website.catalog_id) %>

@@ -1,0 +1,13 @@
+<% @catalogs.each do |catalog| %>
+<%=  catalog.name %>
+<%= link_to 'show', catalog_path(catalog) %>
+<%= link_to 'edit', edit_catalog_path(catalog) %>
+<% if catalog.id != 1 %>
+<%= link_to 'delete', catalog_path(catalog), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
+<br>
+<% end %>
+<br>
+<%= link_to 'new catalog', new_catalog_path %>
+
+<%= @user_id %>

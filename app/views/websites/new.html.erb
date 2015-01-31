@@ -1,0 +1,6 @@
+<%= simple_form_for @website, url: catalog_websites_path do |f| %>
+  <%= f.association :system_website, as: :radio_buttons %>
+  <%= f.button :submit %>
+<% end %>
+<br>
+<%= link_to 'list', catalog_websites_path %>

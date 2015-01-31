@@ -1,0 +1,6 @@
+<p>catalog:<%= @catalog.name %></p>
+<% @websites.each do |website| %>
+<p>system_website_id:<%= website.system_website_id %></p>
+<% end %>
+
+<%= link_to 'new website', new_catalog_website_path %>

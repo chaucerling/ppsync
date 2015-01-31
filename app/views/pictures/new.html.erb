@@ -1,0 +1,11 @@
+<%= image_tag(@picture.origin_url(:big)) %>
+<%= form_for @picture do |f| %>
+  <p>
+  <%= f.text_field :name %>
+  <%= f.file_field :origin %>
+  <%= f.hidden_field :origin_cache %>
+  </p>
+  <%= f.submit "upload" %>
+<% end %>
+<br>
+<%= link_to 'list', pictures_path %>

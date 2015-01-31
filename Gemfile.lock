@@ -185,7 +185,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  carrierwave
+  carrierwave (= 0.10.0)
   coffee-rails (~> 4.1.0)
   composite_primary_keys
   devise
@@ -193,7 +193,7 @@ DEPENDENCIES
   jquery-rails
   mini_magick
   pg (= 0.18.1)
-  qiniu
+  qiniu (~> 6.4.1)
   rails (= 4.2.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

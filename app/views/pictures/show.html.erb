@@ -1,0 +1,4 @@
+<%= image_tag(@picture.origin_url(:big)) %>
+<p><%= @picture.name%></p>
+<%= link_to 'edit', edit_picture_path %>
+<%= link_to 'list', pictures_path %>

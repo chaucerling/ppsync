@@ -43,8 +43,8 @@ group :development, :test do
 end
 
 gem 'devise'
-gem 'carrierwave'
+gem 'carrierwave', '0.10.0'
 gem 'mini_magick'
 gem 'composite_primary_keys' 
-gem 'qiniu'
+gem 'qiniu', '~> 6.4.1'
 gem 'simple_form'

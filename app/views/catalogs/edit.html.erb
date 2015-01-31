@@ -1,0 +1,9 @@
+<%= form_for @catalog do |f| %>
+  <p>
+  <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <%= f.submit "update" %>
+<% end %>
+<br>
+<%= link_to 'list', catalogs_path %>
