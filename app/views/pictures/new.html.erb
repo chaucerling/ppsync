@@ -1,11 +1,8 @@
-<%= image_tag(@picture.origin_url(:big)) %>
-<%= form_for @picture do |f| %>
-  <p>
-  <%= f.text_field :name %>
-  <%= f.file_field :origin %>
-  <%= f.hidden_field :origin_cache %>
-  </p>
-  <%= f.submit "upload" %>
-<% end %>
+<form method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
+    <input name="x:picname">
+    <input name="token" type="hidden" value="<%= @uptoken %>"/>
+    <input name="file" type="file" />
+    <input type="submit" name="commit" value="upload">
+</form>
 <br>
 <%= link_to 'list', pictures_path %>

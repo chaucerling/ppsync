@@ -2,10 +2,11 @@ require 'net/http'
 
 class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
-  protect_from_forgery with: :null_session    
+  protect_from_forgery with: :null_session
 
   def callback
-    @res = {:success => "true"}.to_json
+    params[]
+    @res = {:success => "true" , :id => params[:user_id]}.to_json
     render json: @res
   end
 
@@ -16,6 +17,6 @@ class QiniuController < ApplicationController
 
   private
   def call_params
-    params.permit(:name, :hash, :price, :location, :uid)
+    params.permit(:name, :hash, :price, :location, :uid, :key, :imageInfo, :fsize, :user_id)
   end
 end

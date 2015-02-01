@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  mount_uploader :avatar, AvatarUploader
+  #mount_uploader :avatar, AvatarUploader
   has_many :pictures 
   has_many :catalogs
   has_many :user_websites
