@@ -6,7 +6,7 @@ class QiniuController < ApplicationController
 
   def callback
     res = {:success => "true" , :receive => params, "header" => request.headers}.to_json
-    picture = Picture.new(pic_params)
+    #picture = Picture.new(pic_params)
     # if picture.save
     render json: res
     # else
