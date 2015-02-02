@@ -6,10 +6,7 @@ class QiniuController < ApplicationController
 
   def callback
     res = {:success => "true" , :receive => params, "header" => request.headers}.to_json
-    picture = Picture.new
-    picture.user_id = params[:user_id]
-    picture.origin = params[:hash]
-    picture.name = params[:name]
+    picture = Picture.new(pic_params)
     # if picture.save
     render json: res
     # else
@@ -23,7 +20,7 @@ class QiniuController < ApplicationController
   end
 
   private
-  def call_params
-    params.permit(:name, :hash, :price, :location, :uid, :key, :imageInfo, :fsize, :user_id)
+  def pic_params
+    params.permit(:name, :origin, :user_id)
   end
 end
