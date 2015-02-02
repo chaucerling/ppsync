@@ -5,16 +5,16 @@ class QiniuController < ApplicationController
   protect_from_forgery with: :null_session
 
   def callback
-    res = {:success => "true" , :receive => params}.to_json
+    res = {:success => "true" , :receive => params , :request => request.headers}.to_json
     picture = Picture.new
     picture.user_id = params[:user_id]
     picture.origin = params[:hash]
     picture.name = params[:name]
-    if picture.save
+    # if picture.save
       render json: res
-    else
-      render json: {:error => "can not save"}
-    end
+    # else
+    #   render json: {:error => "can not save"}.to_json
+    # end
   end
 
   def callback2
