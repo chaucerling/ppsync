@@ -35,7 +35,7 @@ class QiniuController < ApplicationController
     data = request.raw_post
     key = Qiniu::Config.settings[:secret_key]
     if auth_str.include?("QBox ") && auth_arr.size == 2 && auth_arr[0].eql?(Qiniu::Config.settings[:access_key]) && 
-      auth_arr[1].eql? OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, key, data) 
+      auth_arr[1].eql?(OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, key, data))
       return true
     else 
       return false
