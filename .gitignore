@@ -16,4 +16,4 @@
 !/log/.keep
 /tmp
 
-/config/**/qiniu_sdk.rb
+#/config/**/qiniu_sdk.rb
