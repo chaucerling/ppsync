@@ -17,13 +17,9 @@ class QiniuController < ApplicationController
   end
 
   def callback2
-    res = {:success => "true" , :receive => params, :header => request.authorization}
-    p headers
-    p request.authorization
-    key = Qiniu::Config.settings[:secret_key]
-    data = "1234"
-    p hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, key, data)
-    render json: res.to_json()
+    ans = is_qiniu_callback request
+    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :ans => ans.to_s}
+    render json: res
   end
 
   private
@@ -34,14 +30,15 @@ class QiniuController < ApplicationController
   def is_qiniu_callback request
     #example "Authorization":"QBox QPg0_gqzPQPzZZCUm3Um6WxxwKluYzkxnxevc3cQ:edi7jur7xT4nD9dAyVKK22wsMi0="
     auth_str = request.authorization
+    return false if auth_str == nil || auth_str.length < 6
     auth_arr = auth_str[5..-1].split(":")
     data = request.raw_post
     key = Qiniu::Config.settings[:secret_key]
-    if !auth_str.include?("QBox ") || auth_arr.size != 2 || auth_arr[0] != Qiniu::Config.settings[:access_key] || 
-      auth_arr[1] != OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, key, data) 
-      return false
-    else 
+    if auth_str.include?("QBox ") && auth_arr.size == 2 && auth_arr[0].eql?(Qiniu::Config.settings[:access_key]) && 
+      auth_arr[1] == OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA1.new, key, data) 
       return true
+    else 
+      return false
     end
   end
 end
