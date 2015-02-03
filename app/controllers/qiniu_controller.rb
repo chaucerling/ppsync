@@ -1,5 +1,5 @@
 require 'net/http'
-require 'openssl'
+
 
 class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
