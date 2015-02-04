@@ -7,7 +7,7 @@ class QiniuController < ApplicationController
 
   def callback
     ans = is_qiniu_callback request
-    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :data => request.raw_post, :ans => ans.to_s}.to_json
+    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :query => request.query_string, :body => request.raw_post, :ans => ans.to_s}.to_json
     #picture = Picture.new(pic_params)
     # if picture.save
     render json: res
@@ -17,14 +17,15 @@ class QiniuController < ApplicationController
   end
 
   def callback2
-    #{}"Authorization":"QBox QPg0_gqzPQPzZZCUm3Um6WxxwKluYzkxnxevc3cQ:0Dv89m5nMCp-q2tJcvYbgolBz6E="
-    #{}"data":"key=Fk_8kKQDbTgeY3keevq4oUKgKOhV\u0026origin=Fk_8kKQDbTgeY3keevq4oUKgKOhV\u0026fsize=407640\u0026imageInfo=%7B%22format%22%3A%22png%22%2C%22width%22%3A1100%2C%22height%22%3A750%2C%22colorModel%22%3A%22nrgba%22%7D\u0026name=78\u0026user_id=1"
+    #{"Authorization":"QBox QPg0_gqzPQPzZZCUm3Um6WxxwKluYzkxnxevc3cQ:i5E1WfMknahUdE9Y8ZoDsOEHFFM=","ans":"false","data":"user_id=1","receive":{"action":"callback","controller":"qiniu","user_id":"1"},"success":"true"}
     ans = is_qiniu_callback request
     data = JSON.parse '{"data":"key=Fk_8kKQDbTgeY3keevq4oUKgKOhV\u0026origin=Fk_8kKQDbTgeY3keevq4oUKgKOhV\u0026fsize=407640\u0026imageInfo=%7B%22format%22%3A%22png%22%2C%22width%22%3A1100%2C%22height%22%3A750%2C%22colorModel%22%3A%22nrgba%22%7D\u0026name=78\u0026user_id=1"}'
     data =  URI.unescape data['data']
-    key = Qiniu::Config.settings[:secret_key]
-    data = "user_id=1"
-    p Base64.encode64 OpenSSL::HMAC.digest(OpenSSL::Digest::SHA1.new, key, data)
+    p key = Qiniu::Config.settings[:secret_key]
+    p data = "user_id=1"
+    p Base64.urlsafe_encode64 Digest::HMAC.digest(data, key, Digest::SHA1)
+    p Base64.urlsafe_encode64 OpenSSL::HMAC.digest('sha1', key, data)
+    p Base64.urlsafe_decode64 "i5E1WfMknahUdE9Y8ZoDsOEHFFM="
     res = {:success => "true" , :receive => params, :Authorization => request.authorization, :ans => ans.to_s}
     render json: res
   end
