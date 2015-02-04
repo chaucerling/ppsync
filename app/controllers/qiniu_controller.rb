@@ -7,7 +7,7 @@ class QiniuController < ApplicationController
 
   def callback
     ans = is_qiniu_callback request
-    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :ans => ans.to_s}.to_json
+    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :data => request.raw_post, :ans => ans.to_s}.to_json
     #picture = Picture.new(pic_params)
     # if picture.save
     render json: res
@@ -18,7 +18,7 @@ class QiniuController < ApplicationController
 
   def callback2
     ans = is_qiniu_callback request
-    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :data => request.raw_post, :ans => ans.to_s}
+    res = {:success => "true" , :receive => params, :Authorization => request.authorization, :ans => ans.to_s}
     render json: res
   end
 
