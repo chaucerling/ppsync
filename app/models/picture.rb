@@ -6,7 +6,7 @@ class Picture < ActiveRecord::Base
 
   after_destroy :delete_in_qiniu
 
-  def url
+  def origin_url
     "7u2s6m.com1.z0.glb.clouddn.com/#{self.origin}"
   end
 
@@ -14,7 +14,7 @@ class Picture < ActiveRecord::Base
     "7u2s6m.com1.z0.glb.clouddn.com"
   end
 
-  private
+  protected
   def delete_in_qiniu 
     if Picture.find_by(orgin: self.origin) == nil
       code, result, response_headers = Qiniu::Storage.delete("ppsync", self.origin)

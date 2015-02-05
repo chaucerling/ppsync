@@ -6,12 +6,17 @@ class QiniuController < ApplicationController
 
   def callback
     ans = is_qiniu_callback request
-    res = {:success => "true" , :receive => params, :ans => ans.to_s}
+    render json: {:error => "not from qiniu"} if !ans
+    render json: {:error => "upload error"} if params[:orgin] == nil
     picture = Picture.new(pic_params)
-    picture.name = params[:fname] if picture.name == nil
-    if ans && picture.save
-      render json: res
+    picture.name = Time.now if picture.name.blank?
+    if picture.save
+      render json: {:success => "true" , :receive => params, :ans => ans.to_s}
     else
+      code, result, response_headers = Qiniu::Storage.delete("ppsync", picture.origin)
+      puts code.inspect
+      puts result.inspect
+      puts response_headers.inspect
       render json: {:error => "can not save"}
     end
   end

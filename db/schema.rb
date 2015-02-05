@@ -11,22 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204125747) do
+ActiveRecord::Schema.define(version: 20150205112750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "catalogs", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name"
+    t.integer  "user_id",    null: false
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "pictures", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "origin"
+    t.integer  "user_id",    null: false
+    t.string   "name",       null: false
+    t.string   "origin",     null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150204125747) do
   add_index "pictures", ["origin"], name: "index_pictures_on_origin", using: :btree
 
   create_table "system_websites", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",         null: false
     t.string   "picture_type"
     t.string   "url"
     t.datetime "created_at",   null: false
@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 20150204125747) do
   end
 
   create_table "user_websites", force: :cascade do |t|
-    t.integer  "catalog_id"
-    t.integer  "user_id"
-    t.integer  "system_website_id"
-    t.integer  "picture_id"
-    t.string   "picture_url"
-    t.integer  "sync_id"
+    t.integer  "catalog_id",        null: false
+    t.integer  "user_id",           null: false
+    t.integer  "system_website_id", null: false
+    t.integer  "picture_id",        null: false
+    t.string   "picture_url",       null: false
+    t.integer  "sync_id",           null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -68,10 +68,11 @@ ActiveRecord::Schema.define(version: 20150204125747) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar"
-    t.string   "username"
+    t.string   "username",                            null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

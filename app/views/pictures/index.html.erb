@@ -1,10 +1,8 @@
 <% @pictures.each do |picture| %>
-<%= image_tag(picture.origin_url(:big)) %>
+<%= image_tag(picture.origin_url) %>
 <%= picture.name %>
 <%= link_to 'show', picture_path(picture) %>
 <%= link_to 'edit', edit_picture_path(picture) %>
 <% end %>
 <br>
 <%= link_to 'new pic', new_picture_path %>
-
-<%= @user_id %>

@@ -1,9 +1,9 @@
 class CreatePictures < ActiveRecord::Migration
   def change
     create_table :pictures do |t|
-      t.belongs_to :user
-      t.string :name
-      t.string :origin_url
+      t.belongs_to :user, null: false
+      t.string :name, null: false
+      t.string :origin, null: false
 
       t.timestamps null: false
     end
