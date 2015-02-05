@@ -1,10 +1,7 @@
 <%= form_for @picture do |f| %>
-  <p>
-    <label>My Avatar</label>
     <%= image_tag(@picture.origin_url(:big)) %>
     <%= f.text_field :name %>
-  </p>
-  <%= f.submit "update" %>
+<%= f.submit "update" %>
 <% end %>
 <br>
 <%= link_to 'list', pictures_path %>

@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   #mount_uploader :avatar, AvatarUploader
-  has_many :pictures 
-  has_many :catalogs
-  has_many :user_websites
+  has_many :pictures, inverse_of: :user
+  has_many :catalogs, inverse_of: :user
+  has_many :user_websites, inverse_of: :user
   has_many :system_websites , through: :user_websites
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

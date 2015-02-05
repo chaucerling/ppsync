@@ -1,28 +1,28 @@
 class PicturesController < ApplicationController
-  before_action :accessing, except: [:index, :new, :create]
+  before_action :accessing, except: [:index, :new]
 
   def index
     @pictures = Picture.where(user_id: current_user.id)
   end
 
   def new
-    #@picture = Picture.new
     put_policy = Qiniu::Auth::PutPolicy.new("ppsync")
     put_policy.callback_url = "ppsync.herokuapp.com/qiniu/callback"
-    put_policy.callback_body = "key=$(key)&origin=$(etag)&fsize=$(fsize)&imageInfo=$(imageInfo)&name=$(x:picname)&user_id=#{current_user.id}"
+    put_policy.callback_body = "key=$(key)&origin=$(etag)&fname=$(fname)&fsize=$(fsize)
+            &imageInfo=$(imageInfo)&name=$(x:picname)&user_id=#{current_user.id}"
     @uptoken = Qiniu::Auth.generate_uptoken(put_policy)
   end
 
   def show
-    @picture = Picture.where(id: params[:id], user_id: current_user.id).take
+    @picture = Picture.find(params[:id])
   end
 
   def edit
-    @picture = Picture.where(id: params[:id], user_id: current_user.id).take
+    @picture = Picture.find(params[:id])
   end
 
   def update
-    @picture = Picture.where(id: params[:id], user_id: current_user.id).take
+    @picture = Picture.find(params[:id])
     if @picture.update(picture_params)
       redirect_to @picture 
     else
@@ -31,7 +31,7 @@ class PicturesController < ApplicationController
   end
 
   def destroy
-    @picture = Picture.where(id: params[:id], user_id: current_user.id).take
+    @picture = Picture.find(params[:id])
     if @picture.destroy
       redirect_to pictures_path
     else
@@ -48,6 +48,6 @@ class PicturesController < ApplicationController
 
   private
   def picture_params
-    params.require(:picture).permit(:name, :origin, :origin_cache)
+    params.require(:picture).permit(:name)
   end
 end
