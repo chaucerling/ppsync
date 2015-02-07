@@ -6,11 +6,7 @@ class PicturesController < ApplicationController
   end
 
   def new
-    put_policy = Qiniu::Auth::PutPolicy.new("ppsync")
-    put_policy.callback_url = "ppsync.herokuapp.com/qiniu/callback"
-    put_policy.callback_body = "key=$(key)&origin=$(etag)&fname=$(fname)&fsize=$(fsize)
-            &imageInfo=$(imageInfo)&name=$(x:picname)&user_id=#{current_user.id}"
-    @uptoken = Qiniu::Auth.generate_uptoken(put_policy)
+    @uptoken = QiniuPicture.upload
   end
 
   def show

@@ -4,12 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, 
     :rememberable, :trackable, :validatable, :authentication_keys => [:login]
   #mount_uploader :avatar, AvatarUploader
-  has_many :pictures, inverse_of: :user
-  has_many :catalogs, inverse_of: :user
-  has_many :user_websites, inverse_of: :user
-  has_many :system_websites , through: :user_websites
+  has_many :pictures, inverse_of: :user, dependent: :destroy
+  has_many :catalogs, inverse_of: :user, dependent: :destroy
+  has_many :user_websites, inverse_of: :user, dependent: :destroy
+  has_many :system_websites , through: :user_websites, dependent: :destroy
 
-  validates :username, :presence => true,:uniqueness => {:case_sensitive => false}
+  validates :username, :presence => true, :uniqueness => {:case_sensitive => false}, length: {minimum: 4}
 
   attr_accessor :login
   after_create :create_default_catalog
