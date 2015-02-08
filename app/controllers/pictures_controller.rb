@@ -6,7 +6,7 @@ class PicturesController < ApplicationController
   end
 
   def new
-    @uptoken = QiniuPicture.upload
+    @uptoken = QiniuPicture.uptoken
   end
 
   def show

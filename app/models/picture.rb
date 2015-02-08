@@ -1,5 +1,5 @@
 class Picture < ActiveRecord::Base
-  belongs_to :user, inverse_of: :picture
+  belongs_to :user, inverse_of: :pictures
   has_many :user_websites, inverse_of: :picture
   validates :name, :origin, :user, presence: true
 
@@ -7,10 +7,6 @@ class Picture < ActiveRecord::Base
 
   def origin_url
     "#{Qiniu::Config.settings[:domain]}/#{self.origin}"
-  end
-
-  def self.domain
-    Qiniu::Config.settings[:domain]
   end
 
   protected

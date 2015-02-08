@@ -1,5 +1,3 @@
-require 'net/http'
-
 class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
   protect_from_forgery with: :null_session
@@ -16,6 +14,12 @@ class QiniuController < ApplicationController
       QiniuPicture.delete picture.origin
       render json: {:error => "can not save"}
     end
+  end
+
+  def fetch
+    pic_url = "http://www.baidu.com/img/baidu_jgylogo3.gif"
+    response = QiniuPicture.fetch pic_url
+    render json: {:code => response.code.to_i}
   end
 
   def callback2
