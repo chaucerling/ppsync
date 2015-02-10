@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
   get 'welcome/index'
   post 'qiniu/callback'
-  get 'qiniu/callback2'
-  get 'qiniu/fetch'
+  root 'welcome#index'
+  
   devise_for :users
+
+  post 'pictures', to: 'pictures#fetch', as: :fetch_picture
+  resources :pictures, except: :create
+  resources :catalogs , shallow: true do
+    resources :websites , except: [:update , :edit]
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -30,11 +35,6 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-  resources :pictures, except: :create
-  resources :catalogs , shallow: true do
-    resources :websites , except: [:update , :edit]
-  end
-
 
   # Example resource route with sub-resources:
   #   resources :products do

@@ -3,23 +3,20 @@ class QiniuController < ApplicationController
   protect_from_forgery with: :null_session
 
   def callback
-    ans = QiniuPicture.auth request
-    render json: {:error => "not from qiniu"} if !ans
-    render json: {:error => "upload error"} if params[:orgin] == nil
+    render json: {:error => "not from qiniu"} if !QiniuPicture.auth(request)
     picture = Picture.new(pic_params)
     picture.name = params[:fname] if picture.name.blank?
+    #key = Digest::MD5.hexdigest(params[:etag] << Time.now.to_f.to_s)
+    #picture.orgin = key
+    picture.info = JSON.parse(params[:image_info])
     if picture.save
-      render json: {:success => "true" , :receive => params, :ans => ans.to_s}
+      res = {:success => "true" , :receive => params}
+      render json: {:key => key, :payload => res}
     else
+      res = {:error => "can not save"}
+      render json: {:key => key, :payload => res}
       QiniuPicture.delete picture.origin
-      render json: {:error => "can not save"}
     end
-  end
-
-  def fetch
-    pic_url = "http://www.baidu.com/img/baidu_jgylogo3.gif"
-    response = QiniuPicture.fetch pic_url
-    render json: {:code => response.code.to_i}
   end
 
   def callback2

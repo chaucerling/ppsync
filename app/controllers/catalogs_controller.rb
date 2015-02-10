@@ -11,8 +11,9 @@ class CatalogsController < ApplicationController
 
   def create
     @catalog = Catalog.new(catalog_params)
-    @catalog.user_id=current_user.id
+    @catalog.user_id = current_user.id
     if @catalog.save
+      p @catalog
       redirect_to @catalog
     else 
       render :new

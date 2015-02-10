@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205112750) do
+ActiveRecord::Schema.define(version: 20150210052416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20150205112750) do
     t.string   "origin",     null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "info",       null: false
+    t.string   "fetch"
+    t.text     "thumbnail"
   end
 
   add_index "pictures", ["origin"], name: "index_pictures_on_origin", using: :btree

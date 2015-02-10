@@ -1,8 +1,16 @@
+<p>upload:</p>
 <form method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
     <input name="x:picname">
     <input name="token" type="hidden" value="<%= @uptoken %>"/>
     <input name="file" type="file" />
     <input type="submit" name="commit" value="upload">
 </form>
+<br>
+<p>fetch:</p>
+<%= form_for(@picture = Picture.new ) do |f| %>
+<p><%= f.label :name %><%= f.text_field :name %></p>
+<p><%= f.label :picture_url %><%= text_field_tag :picture_url %></p>
+<p><%= f.submit "fetch" %></p>
+<% end %>
 <br>
 <%= link_to 'list', pictures_path %>

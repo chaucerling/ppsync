@@ -1,18 +1,18 @@
 class QiniuPicture
-  def self.uptoken
+  def self.uptoken user_id
     put_policy = Qiniu::Auth::PutPolicy.new(Qiniu::Config.settings[:bucket])
     # can not override the same key file
     put_policy.insert_only = 1
-    # error code 413
-    put_policy.fsize_limit = 5 * 1024
+    # byte, error code 413
+    put_policy.fsize_limit = 5 * 1024 * 1024
     # image only, error code 403
     put_policy.mime_limit = "image/*"
     # set key by callback result
-    put_policy.callback_fetch_key = 1
+    #put_policy.callback_fetch_key = 1
     put_policy.callback_url = "ppsync.herokuapp.com/qiniu/callback"
     # params
-    put_policy.callback_body = "key=$(key)&origin=$(etag)&fname=$(fname)&fsize=$(fsize)&imageInfo=$(imageInfo)
-    &name=$(x:picname)&user_id=#{current_user.id}"
+    put_policy.callback_body = "key=$(key)&origin=$(etag)&fname=$(fname)&fsize=$(fsize)&image_info=$(imageInfo)
+        &name=$(x:picname)&user_id=#{user_id}"
     # upload_token
     return Qiniu::Auth.generate_uptoken(put_policy)   
   end
@@ -45,7 +45,8 @@ class QiniuPicture
 
   def self.fetch fetch_url
     encoded_url =Base64.urlsafe_encode64 fetch_url
-    encoded_entry_uri = Base64.urlsafe_encode64("#{Qiniu::Config.settings[:bucket]}:fetch#{Time.now}")
+    key = Digest::MD5.hexdigest(fetch_url << Time.now.to_f.to_s)
+    encoded_entry_uri = Base64.urlsafe_encode64("#{Qiniu::Config.settings[:bucket]}:#{key}")
     url = "http://iovip.qbox.me/fetch/#{encoded_url}/to/#{encoded_entry_uri}"
     acctoken = Qiniu::Auth.generate_acctoken(url)
     # send post request
@@ -56,5 +57,19 @@ class QiniuPicture
     request["Content-Type"] = "application/x-www-form-urlencoded"
     #request.body = body
     response = http.request(request)
+    info = response.code.to_i == 200 ? get_image_info(key) : nil
+    return response, key, info
+  end
+
+  def self.get_image_info key
+    uri = URI.parse("#{Qiniu::Config.settings[:domain]}/#{key}?imageInfo")
+    res = Net::HTTP.get(uri)
+    info = JSON.parse(res)
+    # image_info json format
+    # "format":       "<ImageType         string>",
+    # "width":         <ImageWidth        int>,
+    # "height":        <ImageHeight       int>,
+    # "colorModel":   "<ImageColorModel   string>",
+    # "frameNumber":   <ImageFrameNumber  int>
   end
 end
