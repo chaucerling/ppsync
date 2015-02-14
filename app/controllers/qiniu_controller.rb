@@ -2,6 +2,7 @@ class QiniuController < ApplicationController
   skip_before_action :authenticate_user!
   protect_from_forgery with: :null_session
 
+  # if callback response fail, qiniu server will retry callback again
   def callback
     render json: {:error => "not from qiniu"} if !QiniuPicture.auth(request)
     picture = Picture.new(pic_params)
@@ -11,10 +12,10 @@ class QiniuController < ApplicationController
     picture.info = JSON.parse(params[:image_info])
     if picture.save
       res = {:success => "true" , :receive => params}
-      render json: {:key => key, :payload => res}
+      render json: {:key => 'key', :payload => res}
     else
       res = {:error => "can not save"}
-      render json: {:key => key, :payload => res}
+      render json: {:key => 'key', :payload => res}
       QiniuPicture.delete picture.origin
     end
   end

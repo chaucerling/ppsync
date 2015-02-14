@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   post 'qiniu/callback'
   root 'welcome#index'
   
-  devise_for :users
-
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   post 'pictures', to: 'pictures#fetch', as: :fetch_picture
   resources :pictures, except: :create
   resources :catalogs , shallow: true do
