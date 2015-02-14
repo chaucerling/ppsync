@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
     end
   end
   
-enddef
   protected
   def create_default_catalog
     self.catalogs.create!(name: "default", user_id: self.id)
