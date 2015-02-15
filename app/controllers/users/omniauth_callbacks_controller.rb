@@ -1,5 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def provider(*args)
+  def self.provider(*args)
     args.each do |name|
       define_method name do
         @user = User.from_omniauth(request.env["omniauth.auth"], current_user)
