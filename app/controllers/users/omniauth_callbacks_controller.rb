@@ -1,4 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_before_action :authenticate_user!
+  
   def self.provider(*args)
     args.each do |name|
       define_method name do
@@ -14,6 +16,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  provider :weibo
+  provider :weibo, :twitter, :facebook
 
 end
