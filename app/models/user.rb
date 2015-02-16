@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :catalogs, inverse_of: :user, dependent: :destroy
   has_many :user_websites, inverse_of: :user, dependent: :destroy
   has_many :system_websites , through: :user_websites, dependent: :destroy
-  has_many :user_provider, dependent: :destroy
+  has_many :user_provider, inverse_of: :user, dependent: :destroy
   validates :nickname, presence: true
   after_create :create_default_catalog
 
@@ -20,7 +20,10 @@ class User < ActiveRecord::Base
       user_provider.save
       return user_provider.user
     else
-      user_provider.user =  User.new(nickname: auth.info.name).save(validate: false)
+      new_user = User.new(nickname: auth.info.name)
+      new_user.email = "#{auth.provider}:#{auth.uid}"
+      new_user.save(validate: false)
+      user_provider.user = new_user
       user_provider.save
       return user_provider.user
     end
