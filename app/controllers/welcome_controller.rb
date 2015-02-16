@@ -7,4 +7,14 @@ class WelcomeController < ApplicationController
     put_policy.callback_body = "uid=123"
     @uptoken = Qiniu::Auth.generate_uptoken(put_policy)
   end
+
+  def user
+    @user = User.all
+    render json: @user
+  end
+
+  def userprovider
+    @user = UserProvider.all
+    render json: @user
+  end
 end

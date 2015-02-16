@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   get 'welcome/index'
   post 'qiniu/callback'
   root 'welcome#index'
-  
+  get 'welcome/user'
+  get 'welcome/userprovider'
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   post 'pictures', to: 'pictures#fetch', as: :fetch_picture
   resources :pictures, except: :create
