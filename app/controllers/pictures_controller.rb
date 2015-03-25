@@ -36,16 +36,10 @@ class PicturesController < ApplicationController
     end
   end
 
-  def fetch
-    response, key, info = QiniuPicture.fetch params[:picture_url]
-    if response.code.to_i == 200
-      fetch_str = "1:#{URI.parse(params[:picture_url]).host}"
-      @picture = Picture.new(origin: key, user_id: current_user.id, name: picture_params[:name], fetch: fetch_str, info: info)
-      if res = @picture.save 
-        redirect_to(@picture) 
-      else render :new
-      end
-    else
+  def fetch  
+    if Picture.fetch(params[:picture_url], current_user.id, picture_params[:name])
+      redirect_to(@picture) 
+    else 
       render :new
     end
   end

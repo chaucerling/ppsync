@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/chaucerling/omniauth-weibo-oauth2.git
+  revision: b89b45da7501ec3a3a3c1d2526b658f742222104
+  branch: image_size
+  specs:
+    omniauth-weibo-oauth2 (0.4.0)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+
 GEM
   remote: https://ruby.taobao.org/
   specs:
@@ -118,9 +127,6 @@ GEM
     omniauth-twitter (1.1.0)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
-    omniauth-weibo-oauth2 (0.4.0)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.0)
     orm_adapter (0.5.0)
     pg (0.18.1)
     qiniu (6.4.1)
@@ -179,9 +185,6 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    simple_form (3.1.0)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
     slop (3.6.0)
     spring (1.3.2)
     sprockets (2.12.3)
@@ -222,16 +225,14 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails (~> 4.0.3)
   omniauth-facebook (~> 2.0.0)
-  omniauth-oauth2 (~> 1.2.0)
   omniauth-twitter (~> 1.1.0)
-  omniauth-weibo-oauth2 (~> 0.4.0)
+  omniauth-weibo-oauth2 (~> 0.4.0)!
   pg (= 0.18.1)
   qiniu (~> 6.4.1)
   rails (= 4.2.0)
   rails_12factor
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  simple_form (~> 3.1.0)
   spring (~> 1.3.2)
   turbolinks (~> 2.5.3)
   uglifier (>= 1.3.0)

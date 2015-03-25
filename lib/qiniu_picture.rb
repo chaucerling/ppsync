@@ -1,6 +1,7 @@
 class QiniuPicture
   def self.uptoken user_id
-    put_policy = Qiniu::Auth::PutPolicy.new(Qiniu::Config.settings[:bucket])
+    key = Digest::MD5.hexdigest("#{user_id.to_s}_#{Time.now.to_f.to_s}")
+    put_policy = Qiniu::Auth::PutPolicy.new(Qiniu::Config.settings[:bucket], key)
     # can not override the same key file
     put_policy.insert_only = 1
     # byte, error code 413
@@ -9,10 +10,12 @@ class QiniuPicture
     put_policy.mime_limit = "image/*"
     # set key by callback result
     #put_policy.callback_fetch_key = 1
-    put_policy.callback_url = "ppsync.herokuapp.com/qiniu/callback"
+
+    put_policy.callback_url = Qiniu::Config.settings[:callback_url] 
     # params
-    put_policy.callback_body = "key=$(key)&origin=$(etag)&fname=$(fname)&fsize=$(fsize)&image_info=$(imageInfo)
-        &name=$(x:picname)&user_id=#{user_id}"
+    put_policy.callback_body = "key=$(key)&etag=$(etag)&fname=$(fname)&fsize=$(fsize)
+        &image_info=$(imageInfo)&name=$(x:picname)&user_id=#{user_id}"
+
     # upload_token
     return Qiniu::Auth.generate_uptoken(put_policy)   
   end
@@ -28,7 +31,7 @@ class QiniuPicture
   #authenticate qiniu callback
   #Authorization:QBox iN7NgwM31j4-BZacMjPrOQBs34UG1maYCAQmhdCV:tDK-3f5xF3SJYEAwsll5g=
   #acctoken = "#{access_key}:#{encoded_sign}"
-  def self.auth request
+  def self.auth? request
     acctoken = Qiniu::Auth.generate_acctoken(request.path, request.raw_post)
     return request.authorization.eql?("QBox #{acctoken}")
     # auth_str = request.authorization
@@ -44,7 +47,7 @@ class QiniuPicture
   end
 
   def self.fetch fetch_url
-    encoded_url =Base64.urlsafe_encode64 fetch_url
+    encoded_url = Base64.urlsafe_encode64 fetch_url
     key = Digest::MD5.hexdigest(fetch_url << Time.now.to_f.to_s)
     encoded_entry_uri = Base64.urlsafe_encode64("#{Qiniu::Config.settings[:bucket]}:#{key}")
     url = "http://iovip.qbox.me/fetch/#{encoded_url}/to/#{encoded_entry_uri}"

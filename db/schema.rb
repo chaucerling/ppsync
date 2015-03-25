@@ -11,61 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150212023657) do
+ActiveRecord::Schema.define(version: 20150301085225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "catalogs", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "pictures", force: :cascade do |t|
     t.integer  "user_id",    null: false
-    t.string   "name",       null: false
-    t.string   "origin",     null: false
+    t.string   "name"
+    t.string   "key",        null: false
+    t.text     "info"
+    t.text     "fetch"
+    t.text     "thumbnail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text     "info",       null: false
-    t.string   "fetch"
-    t.text     "thumbnail"
   end
 
-  add_index "pictures", ["origin"], name: "index_pictures_on_origin", using: :btree
+  add_index "pictures", ["key"], name: "index_pictures_on_key", using: :btree
 
-  create_table "system_websites", force: :cascade do |t|
-    t.string   "name",         null: false
-    t.string   "picture_type"
-    t.string   "url"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+  create_table "providers", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
+
+  add_index "providers", ["name"], name: "index_providers_on_name", using: :btree
 
   create_table "user_providers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "provider"
-    t.string   "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",     null: false
+    t.integer  "provider_id", null: false
+    t.string   "uid",         null: false
+    t.string   "token",       null: false
+    t.string   "picture_url", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
-
-  add_index "user_providers", ["user_id"], name: "index_user_providers_on_user_id", using: :btree
-
-  create_table "user_websites", force: :cascade do |t|
-    t.integer  "catalog_id",        null: false
-    t.integer  "user_id",           null: false
-    t.integer  "system_website_id", null: false
-    t.integer  "picture_id",        null: false
-    t.string   "picture_url",       null: false
-    t.integer  "sync_id",           null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  add_index "user_websites", ["user_id", "system_website_id"], name: "index_user_websites_on_user_id_and_system_website_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -87,5 +67,4 @@ ActiveRecord::Schema.define(version: 20150212023657) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "user_providers", "users"
 end

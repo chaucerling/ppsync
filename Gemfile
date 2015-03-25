@@ -47,8 +47,7 @@ gem 'rails_12factor', group: :production
 gem 'devise', '~> 3.4.1'
 gem 'composite_primary_keys', '~> 8.0.0'
 gem 'qiniu', '~> 6.4.1'
-gem 'simple_form', '~> 3.1.0'
-gem 'omniauth-oauth2', '~> 1.2.0'
-gem 'omniauth-weibo-oauth2', '~> 0.4.0'
+gem 'omniauth-weibo-oauth2', '~> 0.4.0', 
+  :github => 'chaucerling/omniauth-weibo-oauth2', :branch => 'image_size'
 gem 'omniauth-facebook', '~> 2.0.0'
 gem 'omniauth-twitter', '~> 1.1.0'

@@ -1,7 +1,7 @@
 require 'qiniu'
 
-Qiniu.establish_connection! :access_key => 'QPg0_gqzPQPzZZCUm3Um6WxxwKluYzkxnxevc3cQ',
-                                            :secret_key => 'wlZaFm2eEj2SdQB0SpRVPcI71G-kpuc0bBPfO0-7'
+Qiniu.establish_connection! :access_key => ENV['QINIU_KEY'], :secret_key => ['QINIU_SECRET']
 
-Qiniu::Config.settings[:domain] = "http://7u2s6m.com1.z0.glb.clouddn.com"
-Qiniu::Config.settings[:bucket] = "ppsync"
+Qiniu::Config.settings[:domain] = ENV['QINIU_DOMAIN']
+Qiniu::Config.settings[:bucket] = ENV['QINIU_BUCKET']
+Qiniu::Config.settings[:callback_url] = ENV['QINIU_CALLBACK_URL']
